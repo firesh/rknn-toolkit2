@@ -1,0 +1,17 @@
+FROM python:3.11-bookworm
+
+# COPY sources_bionic.list /etc/apt/sources.list
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+
+
+RUN apt-get update \
+	&& apt-get install -y gcc vim libprotobuf-dev zlib1g zlib1g-dev libsm6 \
+	&& apt-get install -y libgl1 libglib2.0-0 android-tools-adb
+
+
+ARG RKNN_TOOLKIT_WHL=https://github.com/airockchip/rknn-toolkit2/raw/master/rknn-toolkit2/packages/rknn_toolkit2-2.1.0+708089d1-cp311-cp311-linux_x86_64.whl
+
+RUN pip3 install torch==1.13.1
+RUN pip3 install ${RKNN_TOOLKIT_WHL}
